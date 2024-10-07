@@ -1,0 +1,4 @@
+Develop a test for cpauger
+a. generate img and ann for cropping 
+b. generate img for pasting
+c. pass both to cpauger
