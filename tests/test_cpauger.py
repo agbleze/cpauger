@@ -8,3 +8,9 @@ def test_paste_object():
 
 def test_crop_obj():
     pass
+
+
+def test_collate_all_crops():
+    pass
+
+
