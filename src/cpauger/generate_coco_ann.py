@@ -70,7 +70,6 @@ def generate_coco_annotation_file(image_width, image_height, output_path, img_li
     
     with open(output_path, 'w') as f:
         json.dump(coco_format, f, indent=4)
-        
 
 def save_random_imgs(img_size, save_as):
     img = get_random_image(img_size)
@@ -79,16 +78,12 @@ def save_random_imgs(img_size, save_as):
 def save_random_img_wrapper(args):
     save_random_imgs(**args)
     
-def generate_random_images_and_annotation(image_height, 
-                                          image_width,
-                                        number_of_images, 
-                                        output_dir=None,
-                                        img_ext=None,
-                                        image_name=None,
-                                        parallelize=True,
-                                        save_ann_as="generated_annotation.json",
-                                        generate_ann=True
-                                        ):
+def generate_random_images(image_height, image_width,
+                            number_of_images, output_dir=None,
+                            img_ext=None,
+                            image_name=None,
+                            parallelize=True
+                            ):
     if not output_dir:
         output_dir = "random_images"
     if not image_name:
@@ -120,16 +115,29 @@ def generate_random_images_and_annotation(image_height,
                       desc="Generating images in multiprocessing"
                       )
                  )
-    img_paths = glob(f"{output_dir}/*")
-    if generate_ann:
-        generate_coco_annotation_file(image_width=image_width, 
-                                    image_height=image_height, 
-                                    output_path=save_ann_as, 
-                                    img_list=img_paths
-                                    )
-    return img_paths
+    img_paths =  glob(f"{output_dir}/*")
+    return img_paths       
+
+def generate_random_images_and_annotation(image_height, image_width,
+                                        number_of_images, output_dir=None,
+                                        img_ext=None,
+                                        image_name=None,
+                                        parallelize=True,
+                                        save_ann_as="generated_annotation.json"
+                                        ):            
+    img_paths = generate_random_images(image_height=image_height, 
+                                       image_width=image_width,
+                                        number_of_images=number_of_images, 
+                                        output_dir=output_dir,
+                                        img_ext=img_ext,
+                                        image_name=image_name,
+                                        parallelize=parallelize
+                                        )
+    generate_coco_annotation_file(image_width=image_width, 
+                                  image_height=image_height, 
+                                  output_path=save_ann_as, 
+                                  img_list=img_paths
+                                  )
+    return img_paths, save_ann_as
         
     
-        
-        
-        

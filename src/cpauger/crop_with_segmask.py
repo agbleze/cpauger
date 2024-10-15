@@ -173,18 +173,6 @@ def paste_object(dest_img_path, cropped_objects: Dict[str, List[np.ndarray]],
                          key being the category_id and value being a list of
                          cropped object image (np.ndarray)
                          """)
-    # Calculate the position in the destination image
-    
-    # if sample_location_randomly:
-    #     min_x = random.random()
-    #     max_x = random.uniform(min_x, 1)
-    #     min_y = random.random()
-    #     max_y = random.uniform(min_y, 1)
-        
-    # x = int(min_x * dest_w)
-    # y = int(min_y * dest_h)
-    # max_x = int(max_x * dest_w)
-    # max_y = int(max_y * dest_h)
     bboxes, segmentations, category_ids = [], [], []
     # Resize the cropped object if resize dimensions are provided
     for cat_id in cropped_objects:

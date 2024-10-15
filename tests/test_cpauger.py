@@ -14,3 +14,8 @@ def test_collate_all_crops():
     pass
 
 
+def test_generate_random_images():
+    pass
+
+def test_generate_random_images_and_annotation():
+    pass
