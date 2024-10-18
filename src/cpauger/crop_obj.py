@@ -2,19 +2,19 @@ from pycocotools.coco import COCO
 import cv2
 import numpy as np
 from PIL import Image
-from clusteval import clusteval
 import pandas as pd
 import json
 from typing import Union, List, Dict, Tuple
 import os
-import random
 
 
-def crop_obj_per_image(obj_names: list, imgname: Union[str, List], img_dir,
+def crop_obj_per_image(obj_names: list, 
+                       imgname: Union[str, List], 
+                       img_dir,
                        coco_ann_file: str
                        ) -> Union[Dict[str,List], None]:
+    imgname = os.path.basename(imgname)
     cropped_objs_collection = {}
-    # get objs in image
     with open(coco_ann_file, "r") as filepath:
         coco_data = json.load(filepath)
         
@@ -24,10 +24,8 @@ def crop_obj_per_image(obj_names: list, imgname: Union[str, List], img_dir,
     
     coco = COCO(coco_ann_file)
     images = coco_data["images"]
-    image_info = [img_info for img_info in images if img_info["file_name"]==imgname][0]
+    image_info = [img_info for img_info in images if os.path.basename(img_info["file_name"])==imgname][0]
     image_id = image_info["id"]
-    image_height = image_info["height"]
-    image_width = image_info["width"]
     annotations = coco_data["annotations"]
     img_ann = [ann_info for ann_info in annotations if ann_info["image_id"]==image_id]
     img_catids = set(ann_info["category_id"] for ann_info in img_ann)
@@ -37,24 +35,23 @@ def crop_obj_per_image(obj_names: list, imgname: Union[str, List], img_dir,
     objs_to_crop = set(img_objnames).intersection(set(obj_names))
     if objs_to_crop:
         for objname in obj_names:
-            print(f"objname: {objname} \n")
             object_masks = []
             if objname in img_objnames:
                 obj_id = category_name_to_id_map[objname]
                 for ann in img_ann:
                     if ann["category_id"] == obj_id:
-                        mask = coco.annToMask(ann)                        
+                        mask = coco.annToMask(ann)
                         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
                         for contour in contours:
                             x, y, w, h = cv2.boundingRect(contour)
                             cropped_object = image[y:y+h, x:x+w]
                             mask_cropped = mask[y:y+h, x:x+w]
-                            cropped_object = cv2.bitwise_and(cropped_object, cropped_object, 
-                                                             mask=mask_cropped)
+                            cropped_object = cv2.bitwise_and(cropped_object, 
+                                                             cropped_object, 
+                                                             mask=mask_cropped
+                                                             )
                             # Remove the background (set to transparent)
                             cropped_object = cv2.cvtColor(cropped_object, cv2.COLOR_BGR2RGBA)
-                            print(f"mask_cropped: {mask_cropped.shape} \n")
-                            print(f"new mask_cropped[:,:] {mask_cropped[:,:].shape} \n")
                             cropped_object[:, :, 3] = mask_cropped * 255
                             object_masks.append(cropped_object)
                 if objname not in cropped_objs_collection.keys():
@@ -62,16 +59,14 @@ def crop_obj_per_image(obj_names: list, imgname: Union[str, List], img_dir,
                 else:
                     for each_mask in object_masks:
                         cropped_objs_collection[objname].append(each_mask)
-            
-            
     return cropped_objs_collection
-
 
 def collate_all_crops(object_to_cropped, imgnames_for_crop, img_dir,
                       coco_ann_file
                       ):
     all_crops = {}
     for img in imgnames_for_crop:
+        img = os.path.basename(img)
         crop_obj = crop_obj_per_image(obj_names=object_to_cropped, 
                                       imgname=img, 
                                     img_dir=img_dir,
@@ -86,6 +81,5 @@ def collate_all_crops(object_to_cropped, imgnames_for_crop, img_dir,
                     all_crops[each_object] = cpobjs
                 else:
                     for idx, cpobj in enumerate(cpobjs): 
-                        all_crops[each_object].append(cpobj)           
-                    
+                        all_crops[each_object].append(cpobj)
     return all_crops

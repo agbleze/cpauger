@@ -28,13 +28,15 @@ def visualize_bboxes(annotation_file, image_dir, output_dir):
         cv2.imwrite(output_path, image)
         print(f"Bounding boxes visualized for {image_info['file_name']} and saved as {output_path}")
 
-
 def random_color():
     return tuple(random.randint(0, 255) for _ in range(3))
 
-def draw_bbox_and_polygons(annotation_path, img_dir, 
-                           visualize_dir="visualize_bbox_and_polygons"
+def draw_bbox_and_polygons(annotation_path, img_dir=None, 
+                           visualize_dir="visualize_bbox_and_polygons",
+                           imgpaths_list=None
                            ):
+    if not img_dir and not imgpaths_list:
+        raise ValueError("Either img_dir or imgpaths_list should be provided")
     os.makedirs(visualize_dir, exist_ok=True)
     coco = COCO(annotation_path)
     for id, imginfo in coco.imgs.items():
@@ -47,25 +49,31 @@ def draw_bbox_and_polygons(annotation_path, img_dir,
         polygons = [ann["segmentation"][0] for ann in anns]
         category_ids = [ann["category_id"] for ann in anns]
         category_names = [coco.cats[cat_id]["name"] for cat_id in category_ids]
-        
-        image_path = os.path.join(img_dir, file_name)
+        ann_ids = [ann["id"] for ann in anns]
+        if img_dir:
+            image_path = os.path.join(img_dir, file_name)
+        elif imgpaths_list:
+            image_path = [imgpath for imgpath in imgpaths_list if os.path.basename(imgpath) == file_name][0]
         
         img = Image.open(image_path).convert("RGBA")
         mask_img = Image.new("RGBA", img.size)
         draw = ImageDraw.Draw(mask_img)
         font = ImageFont.load_default()
         # Draw bounding boxes
-        for bbox, polygon, category_name in zip(bboxes, polygons, category_names):
+        for bbox, polygon, category_name, ann_id in zip(bboxes, polygons, category_names, ann_ids):
             color = random_color()
             bbox = [bbox[0], bbox[1], bbox[0]+bbox[2], bbox[1]+bbox[3]]
             draw.rectangle(bbox, outline=color, width=2)
+            print(f"polygon: {polygon}")
+            print(f"len(polygon): {len(polygon)}")
+            print(f"ann_id: {ann_id}")
             draw.polygon(polygon, outline=color, fill=color + (100,))
             text_position = (bbox[0], bbox[1] - 10)
             draw.text(text_position, category_name, fill=color, font=font)
         blended_img = Image.alpha_composite(img, mask_img)
         final_img = blended_img.convert("RGB")
         # Save the output image
-        output_path = os.path.join(visualize_dir, file_name)  # Replace "visualize_bbox_and_polygons" with your desired output directory path  # Ensure that the directory exists before saving the image  # Example: output_path = "output/image_with_bbox_and_polygons.png"  # Save the image in PNG format  # Example: img.save(output_path, format='PNG')  # Save the image in JPEG format  # Example: img.save(output_path, format='JPEG')  # Save the image in GIF format  # Example: img.save(output_path, format='GIF')  # Save the image in TIFF format  # Example: img.save(output_path, format='TIFF')  # Save the image in WebP format  # Example: img.save(output_path, format='WEBP')
+        output_path = os.path.join(visualize_dir, file_name) 
         final_img.save(output_path, format='PNG') 
 
 
