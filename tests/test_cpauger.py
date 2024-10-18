@@ -1,11 +1,13 @@
-from cpauger.paste_obj import paste_object, paste_crops_on_bkgs
-from cpauger.generate_coco_ann import (generate_random_images,
+from ..src.cpauger.paste_obj import paste_object, paste_crops_on_bkgs
+from ..src.cpauger.generate_coco_ann import (generate_random_images,
                                        generate_random_images_and_annotation
                                         )
-from cpauger.crop_obj import collate_all_crops, crop_obj_per_image
+from ..src.cpauger.crop_obj import collate_all_crops, crop_obj_per_image
+from ..src.cpauger.augment_image import crop_paste_obj
 import pytest
 import tempfile
 import json
+
 
 
 @pytest.fixture
