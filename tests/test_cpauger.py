@@ -99,7 +99,7 @@ def test_paste_crops_on_bkgs(get_all_crops, generate_bkg_imgs):
     check_keys = ["images", "annotations", "categories"]
     for annkey in check_keys:
         assert annkey in cocodata, f"FAILED: {annkey} result annotation after running paste_crops_on_bkgs does not contain {annkey} field."
-    tempfile.cleanup()    
+    save_coco_ann_as.cleanup()    
 
 def test_crop_obj_per_image(generate_crop_imgs_and_annotation):
     img_paths, coco_path, tempdir = generate_crop_imgs_and_annotation
@@ -125,4 +125,18 @@ def test_collate_all_crops(generate_crop_imgs_and_annotation):
 def test_crop_paste_obj(generate_bkg_imgs, generate_crop_imgs_and_annotation):
     bkgs = generate_bkg_imgs
     img_paths, coco_path, tempdir = generate_crop_imgs_and_annotation
+    crop_paste_obj(object_to_cropped=["object_1", "object_2", "object_3"], 
+                    imgnames_for_crop=img_paths,
+                    img_dir="random_images",
+                    coco_ann_file=coco_path, 
+                    bkgs=bkgs, 
+                    objs_paste_num={"object_1":1, "object_2":1},
+                    output_img_dir="random_cpaug", 
+                    save_coco_ann_as="rand_cpaug_ann.json",
+                    min_x=None, min_y=None, 
+                    max_x=None, max_y=None, 
+                    resize_width=50, resize_height=50,
+                    sample_location_randomly=True,
+                    visualize_dir="rand_cpaug_visualize_bbox_and_polygons"
+                    )
     
