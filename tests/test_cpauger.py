@@ -121,4 +121,8 @@ def test_collate_all_crops(generate_crop_imgs_and_annotation):
     assert all_crop_objects is not None, "FAILED: No objects were cropped and collated"
     tempdir.cleanup()
 
- 
+
+def test_crop_paste_obj(generate_bkg_imgs, generate_crop_imgs_and_annotation):
+    bkgs = generate_bkg_imgs
+    img_paths, coco_path, tempdir = generate_crop_imgs_and_annotation
+    
