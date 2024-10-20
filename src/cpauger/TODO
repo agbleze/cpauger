@@ -1,4 +1,6 @@
-Develop a test for cpauger
-a. generate img and ann for cropping 
-b. generate img for pasting
-c. pass both to cpauger
+Handle occlusion where object is paste onto an object existing in background image
+given the annotation of images in coco format, read the bbox and segmentation 
+and use that to determine and identify images with occlusion. After that, for 
+occluded images, adjust the segmentation and bbox such that one of the image 
+takes the full bbox  and segmentation and the others take the non-occluded 
+part of the segmentation
