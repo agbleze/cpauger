@@ -1,11 +1,10 @@
 import cv2
 import json
 import os
-from pathlib import Path
 from glob import glob
 from PIL import Image, ImageDraw, ImageFont
 import random
-import COCO
+from pycocotools.coco import COCO
 
 def visualize_bboxes(annotation_file, image_dir, output_dir):
     with open(annotation_file, 'r') as f:
@@ -64,9 +63,9 @@ def draw_bbox_and_polygons(annotation_path, img_dir=None,
             color = random_color()
             bbox = [bbox[0], bbox[1], bbox[0]+bbox[2], bbox[1]+bbox[3]]
             draw.rectangle(bbox, outline=color, width=2)
-            print(f"polygon: {polygon}")
-            print(f"len(polygon): {len(polygon)}")
-            print(f"ann_id: {ann_id}")
+            #print(f"polygon: {polygon}")
+            #print(f"len(polygon): {len(polygon)}")
+            #print(f"ann_id: {ann_id}")
             draw.polygon(polygon, outline=color, fill=color + (100,))
             text_position = (bbox[0], bbox[1] - 10)
             draw.text(text_position, category_name, fill=color, font=font)
@@ -75,15 +74,3 @@ def draw_bbox_and_polygons(annotation_path, img_dir=None,
         # Save the output image
         output_path = os.path.join(visualize_dir, file_name) 
         final_img.save(output_path, format='PNG') 
-
-
-#%% Example usage
-if __name__ == '__main__':
-    annotation_file = "/home/lin/codebase/merge_coco/cor4_merged_annotations.json"
-    valid_coco = "/home/lin/codebase/merge_coco/valid_annotations.json"
-    image_dir = "/home/lin/codebase/merge_coco/valid"
-    output_dir = "/home/lin/codebase/merge_coco/valid_viz_cor4"
-    visualize_bboxes(valid_coco, image_dir, output_dir)
-
-# %%
-# flea-beetle-2_jpg.rf.5d03f74e1f36cc80c7606c28f6589420

@@ -1,11 +1,8 @@
 from pycocotools.coco import COCO
 import cv2
 import numpy as np
-from PIL import Image
-from clusteval import clusteval
-import pandas as pd
 import json
-from typing import Union, List, Dict, Tuple
+from typing import List, Dict, Tuple
 import os
 import random
 
@@ -41,26 +38,26 @@ def get_adjusted_width_height(new_w, new_h, obj_w, obj_h):
 def get_adjusted_object(x, y, resized_object, dest_image):
     obj_bottom_loc = y+resized_object.shape[0]
     obj_right_loc = x+resized_object.shape[1]
-    print(f"obj_bottom_loc: {obj_bottom_loc}")
-    print(f"obj_right_loc: {obj_right_loc}")
+    #print(f"obj_bottom_loc: {obj_bottom_loc}")
+    #print(f"obj_right_loc: {obj_right_loc}")
     while obj_bottom_loc > dest_image.shape[0]:
         obj_bottom_loc = dest_image.shape[0] - y  
-        print(f"reset obj_bottom_loc: to {obj_bottom_loc}")
+        #print(f"reset obj_bottom_loc: to {obj_bottom_loc}")
         resized_object = cv2.resize(resized_object, (resized_object.shape[1], 
                                                     obj_bottom_loc
                                                     ), 
                                     interpolation=cv2.INTER_AREA
                                     )
-        print(f"In obj_bottom_loc while loop")
+        #print(f"In obj_bottom_loc while loop")
     while obj_right_loc > dest_image.shape[1]:
         obj_right_loc = dest_image.shape[1] - x 
-        print(f"reset obj_right_loc: to {obj_right_loc}")
+        #print(f"reset obj_right_loc: to {obj_right_loc}")
         resized_object = cv2.resize(resized_object, (obj_right_loc, 
                                                     resized_object.shape[0]
                                                     ), 
                                     interpolation=cv2.INTER_AREA
                                     )
-        print(f"In obj_right_loc while loop")
+        #print(f"In obj_right_loc while loop")
     return resized_object
 
 def get_paste_location_coordinate(sample_location_randomly, dest_w,
@@ -175,7 +172,7 @@ def paste_object(dest_img_path, cropped_objects: Dict[str, List[np.ndarray]],
             
             #mask_inv = cv2.resize(mask_inv, (roi.shape[1], roi.shape[0]))
             # Black-out the area of the object in the ROI
-            print(f"roi: {roi.shape}  ====  mask_inv: {mask_inv.shape}")
+            #print(f"roi: {roi.shape}  ====  mask_inv: {mask_inv.shape}")
             img_bg = cv2.bitwise_and(roi, roi, mask=mask_inv)
 
             # Take only region of the object from the object image

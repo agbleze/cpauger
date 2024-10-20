@@ -8,6 +8,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
+pycocotools = "^2.0.8"
+opencv-python = "^4.10.0.84"
+randimage = "^1.2"
+tqdm = "^4.66.5"
 
 [tool.poetry.dev-dependencies]
 

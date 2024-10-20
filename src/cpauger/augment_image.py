@@ -1,6 +1,6 @@
 from .paste_obj import paste_crops_on_bkgs
 from .visualize import draw_bbox_and_polygons
-from crop_obj import collate_all_crops
+from .crop_obj import collate_all_crops
 
 def crop_paste_obj(object_to_cropped, imgnames_for_crop, img_dir,
                     coco_ann_file, bkgs, objs_paste_num,

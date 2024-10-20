@@ -1,10 +1,7 @@
 from pycocotools.coco import COCO
 import cv2
-import numpy as np
-from PIL import Image
-import pandas as pd
 import json
-from typing import Union, List, Dict, Tuple
+from typing import Union, List, Dict
 import os
 
 
