@@ -29,10 +29,9 @@ def get_polygon_coordinates(mask):
     return segmentation
 
 def get_adjusted_width_height(new_w, new_h, obj_w, obj_h):
-    if (new_w <= 0):
-        new_w = obj_w // 2
-    if (new_h <= 0):
-        new_h = obj_h // 2
+    if (int(new_w) <= 0) or (int(new_h) <= 0):
+        new_w = obj_w + 20
+        new_h = obj_h + 20
     return new_w, new_h
 
 def get_adjusted_object(x, y, resized_object, dest_image):
