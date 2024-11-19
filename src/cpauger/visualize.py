@@ -5,6 +5,7 @@ from glob import glob
 from PIL import Image, ImageDraw, ImageFont
 import random
 from pycocotools.coco import COCO
+from typing import Tuple, Union
 
 def visualize_bboxes(annotation_file: str, image_dir: str, output_dir: str)->None:
     """Visualize bbox(es) of objects in image(s) when given coco annotation file
@@ -35,13 +36,30 @@ def visualize_bboxes(annotation_file: str, image_dir: str, output_dir: str)->Non
         cv2.imwrite(output_path, image)
         print(f"Bounding boxes visualized for {image_info['file_name']} and saved as {output_path}")
 
-def random_color():
+def random_color() -> Tuple[int, int, int]:
+    """ Generate random RGB color values"""
     return tuple(random.randint(0, 255) for _ in range(3))
 
-def draw_bbox_and_polygons(annotation_path, img_dir=None, 
-                           visualize_dir="visualize_bbox_and_polygons",
-                           imgpaths_list=None
-                           ):
+def draw_bbox_and_polygons(annotation_path: str, img_dir: Union[str, None]=None, 
+                           visualize_dir: str="visualize_bbox_and_polygons",
+                           imgpaths_list: Union[str, None]=None
+                           ) -> None:
+    """Visualize the bbox(es) and segmentation mask(s) of objects in image(s)
+
+    Args:
+        annotation_path (str): Coco annotation path for image(s).
+        img_dir (str, optional): Directory of images. This is required when imgpaths_list 
+                                is not provided in which case all images in img_dir 
+                                will be visualize.
+        visualize_dir (str, optional): Directory to store output of visualization. 
+                                        Defaults to "visualize_bbox_and_polygons".
+        imgpaths_list (str, optional): List of images to visualize. Required when img_dir 
+                                        is not povided. Use when only a subset of images 
+                                        are to visualize rather than all images in the img_dir.
+                                        Defaults to None.
+
+    Returns: None
+    """
     if not img_dir and not imgpaths_list:
         raise ValueError("Either img_dir or imgpaths_list should be provided")
     os.makedirs(visualize_dir, exist_ok=True)
