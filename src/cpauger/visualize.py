@@ -6,7 +6,15 @@ from PIL import Image, ImageDraw, ImageFont
 import random
 from pycocotools.coco import COCO
 
-def visualize_bboxes(annotation_file, image_dir, output_dir):
+def visualize_bboxes(annotation_file: str, image_dir: str, output_dir: str)->None:
+    """Visualize bbox(es) of objects in image(s) when given coco annotation file
+
+    Args:
+        annotation_file (str, Path): Coco annotation file path
+        image_dir (str): Directory where images to visualize are located
+        output_dir (str): Directory to store the output of visualization
+    Returns: None
+    """
     with open(annotation_file, 'r') as f:
         coco_data = json.load(f)
     category_map = {category['id']: category['name'] for category in coco_data['categories']}
