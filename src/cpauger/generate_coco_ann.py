@@ -136,18 +136,27 @@ def save_random_img_wrapper(args: Dict) -> None:
     """
     save_random_imgs(**args)
     
-def generate_random_images(image_height, image_width,
-                            number_of_images, output_dir=None,
-                            img_ext=None,
-                            image_name=None,
-                            parallelize=True
-                            ):
-    if not output_dir:
-        output_dir = "random_images"
-    if not image_name:
-        image_name = "random_image"
-    if not img_ext:
-        img_ext = "jpg"
+def generate_random_images(image_height: int, image_width: int,
+                            number_of_images: int, 
+                            output_dir: str = "random_images",
+                            img_ext: str ="jpg",
+                            image_name: str ="random_images",
+                            parallelize: bool =True
+                            ) -> List[str]:
+    """_summary_
+
+    Args:
+        image_height (int): Height of the image
+        image_width (int): Width of the image
+        number_of_images (int): Number of images to generate
+        output_dir (_type_, optional): Directory to export images to. Defaults to random_images.
+        img_ext (str, optional): Image extention to use to save. Defaults to jpg.
+        image_name (str, optional): Prefix name to use in saving image. Defaults to random_images.
+        parallelize (bool, optional): Multiprocess should be use for image generating. Defaults to True.
+
+    Returns:
+        List[str]: List of paths to images generated
+    """
     os.makedirs(output_dir, exist_ok=True)
     img_size = (int(image_height), int(image_width))
     iterations = [i for i in range(0, int(number_of_images))]
