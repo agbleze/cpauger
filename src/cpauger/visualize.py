@@ -89,9 +89,6 @@ def draw_bbox_and_polygons(annotation_path: str, img_dir: Union[str, None]=None,
             color = random_color()
             bbox = [bbox[0], bbox[1], bbox[0]+bbox[2], bbox[1]+bbox[3]]
             draw.rectangle(bbox, outline=color, width=2)
-            #print(f"polygon: {polygon}")
-            #print(f"len(polygon): {len(polygon)}")
-            #print(f"ann_id: {ann_id}")
             draw.polygon(polygon, outline=color, fill=color + (100,))
             text_position = (bbox[0], bbox[1] - 10)
             draw.text(text_position, category_name, fill=color, font=font)

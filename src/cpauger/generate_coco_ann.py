@@ -9,6 +9,7 @@ import matplotlib
 from glob import glob
 import multiprocessing
 from typing import List, Tuple, Dict
+import inspect
 
 def generate_random_bbox(image_width: int, image_height:int) -> List[int]:
     """Create a list of random bbox coordinates in coco format.
@@ -143,7 +144,7 @@ def generate_random_images(image_height: int, image_width: int,
                             image_name: str ="random_images",
                             parallelize: bool =True
                             ) -> List[str]:
-    """_summary_
+    """Generates random images
 
     Args:
         image_height (int): Height of the image
@@ -185,13 +186,29 @@ def generate_random_images(image_height: int, image_width: int,
     img_paths =  glob(f"{output_dir}/*")
     return img_paths       
 
-def generate_random_images_and_annotation(image_height, image_width,
-                                        number_of_images, output_dir=None,
-                                        img_ext=None,
-                                        image_name=None,
-                                        parallelize=True,
-                                        save_ann_as="generated_annotation.json"
-                                        ):            
+def generate_random_images_and_annotation(image_height: int, image_width: int,
+                                        number_of_images: int, 
+                                        output_dir: str = "random_images",
+                                        img_ext: str ="jpg",
+                                        image_name: str ="random_images",
+                                        parallelize: bool =True,
+                                        save_ann_as="generated_annotation.json",
+                                        *args, **kwargs
+                                        ) -> Tuple[List, str]: 
+    """Generates random images and annotations in coco format
+
+    Args:
+        image_height (int): Height of the image
+        image_width (int): Width of the image
+        number_of_images (int): Number of images to generate
+        output_dir (_type_, optional): Directory to export images to. Defaults to random_images.
+        img_ext (str, optional): Image extention to use to save. Defaults to jpg.
+        image_name (str, optional): Prefix name to use in saving image. Defaults to random_images.
+        parallelize (bool, optional): Multiprocess should be use for image generating. Defaults to True.
+        save_ann_as (str, optional): coco annotation file name to use for saving
+    Returns:
+        Tuple[List, str]: List of images generated paths and save_ann_as
+    """          
     img_paths = generate_random_images(image_height=image_height, 
                                        image_width=image_width,
                                         number_of_images=number_of_images, 
