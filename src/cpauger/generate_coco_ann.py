@@ -187,14 +187,14 @@ def generate_random_images(image_height: int, image_width: int,
     return img_paths       
 
 def generate_random_images_and_annotation(image_height: int, image_width: int,
-                                        number_of_images: int, 
-                                        output_dir: str = "random_images",
-                                        img_ext: str ="jpg",
-                                        image_name: str ="random_images",
-                                        parallelize: bool =True,
-                                        save_ann_as="generated_annotation.json",
-                                        *args, **kwargs
-                                        ) -> Tuple[List, str]: 
+                                          number_of_images: int, 
+                                          output_dir: str = "random_images",
+                                          img_ext: str = "jpg",
+                                          image_name: str = "random_images",
+                                          parallelize: bool = True,
+                                          save_ann_as: str= "generated_annotation.json",
+                                          *args, **kwargs
+                                         ) -> Tuple[List, str]: 
     """Generates random images and annotations in coco format
 
     Args:
