@@ -16,7 +16,7 @@ def generate_bkg_imgs():
     random_bkg_images = generate_random_images(image_height=124, image_width=124,
                                                 number_of_images=10, 
                                                 output_dir="random_bkg_images",
-                                                img_ext=None,
+                                                #img_ext=None,
                                                 image_name="rand_bkg",
                                                 parallelize=True
                                                 )
@@ -28,8 +28,8 @@ def generate_crop_imgs_and_annotation():
     img_paths, gen_coco_path = generate_random_images_and_annotation(image_height=124, image_width=124,
                                                                     number_of_images=10, 
                                                                     output_dir=tempdir.name,
-                                                                    img_ext=None,
-                                                                    image_name=None,
+                                                                    #img_ext=None,
+                                                                    #image_name=None,
                                                                     parallelize=True
                                                                     )
     return img_paths, gen_coco_path, tempdir
@@ -52,7 +52,7 @@ def test_generate_random_images():
     random_bkg_images = generate_random_images(image_height=124, image_width=124,
                                                 number_of_images=10, 
                                                 output_dir=output_dir,
-                                                img_ext=None,
+                                                #img_ext=None,
                                                 image_name="rand_bkg",
                                                 parallelize=True
                                                 )
@@ -66,8 +66,8 @@ def test_generate_random_images_and_annotation():
                                                 image_width=124,
                                                 number_of_images=10, 
                                                 output_dir=output_dir,
-                                                img_ext=None,
-                                                image_name=None,
+                                                #img_ext=None,
+                                                #image_name=None,
                                                 parallelize=True
                                                 )
     assert len(res) == 2, f"{len(res)} objects were return instead of 2 for image list and annotation"
@@ -116,10 +116,10 @@ def test_paste_crops_on_bkgs(get_all_crops, generate_bkg_imgs):
 def test_crop_obj_per_image(generate_crop_imgs_and_annotation):
     img_paths, coco_path, tempdir = generate_crop_imgs_and_annotation
     cropped_obj = crop_obj_per_image(obj_names=["object_1"], 
-                                             imgname=img_paths[0], 
-                                             img_dir=tempdir.name,
-                                            coco_ann_file=coco_path
-                                            )
+                                    imgname=img_paths[0], 
+                                    img_dir=tempdir.name,
+                                    coco_ann_file=coco_path
+                                    )
     assert cropped_obj is not None, f"FAILED crop_obj_per_image: No object cropped"
     tempdir.cleanup()
     if os.path.exists(coco_path):

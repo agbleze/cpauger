@@ -11,7 +11,18 @@ import multiprocessing
 from typing import List, Tuple, Dict
 import inspect
 
-def generate_random_bbox(image_width: int, image_height:int) -> List[int]:
+
+def get_params(func, kwargs):
+    allowed_param = [param for param in kwargs 
+                    if param in 
+                    inspect.signature(func).parameters
+                    ]
+    useparams = {param: kwargs[param] for param in 
+                 allowed_param
+                 }
+    return useparams
+   
+def generate_random_bbox(image_width: int, image_height: int, anthor=5) -> List[int]:
     """Create a list of random bbox coordinates in coco format.
 
     Args:
@@ -27,6 +38,62 @@ def generate_random_bbox(image_width: int, image_height:int) -> List[int]:
     height = random.randint(1, image_height - y)
     return [x, y, width, height]
 
+
+#%%
+
+#get_params(generate_random_bbox)
+
+# inspect.signature(generate_random_bbox).parameters.values().
+
+
+# #%%
+# inspect.getargvalues(generate_random_bbox)
+
+
+#%%
+
+# import inspect
+
+# def example_function(a, b, c=5, *args, **kwargs):
+#     pass
+
+# def get_function_args(func):
+#     signature = inspect.signature(func)
+#     parameters = signature.parameters
+
+#     # Initialize separate lists for positional, default, and keyword arguments
+#     pos_args = []
+#     kw_args = {}
+#     default_args = {}
+
+#     for name, param in parameters.items():
+#         if param.default == inspect.Parameter.empty:
+#             if param.kind == inspect.Parameter.VAR_POSITIONAL:
+#                 pos_args.append(f"*{name}")
+#             elif param.kind == inspect.Parameter.VAR_KEYWORD:
+#                 kw_args[name] = None
+#             else:
+#                 pos_args.append(name)
+#         else:
+#             default_args[name] = param.default
+
+#     return pos_args, default_args, kw_args
+
+# pos_args, default_args, kw_args = get_function_args(example_function)
+
+# print("Positional arguments:", pos_args)
+# print("Default arguments:", default_args)
+# print("Keyword arguments:", kw_args)
+
+# #%%
+# def sample_func(a, b, also="jetzt", *args, **kwargs):
+#     print(*args)
+#     print(f"a: {a}, b: {b}")
+#     print(**kwargs)
+
+
+# sample_func(23, "bar") #, ex="op", job="mini")
+#%%
 def generate_random_segmentation(bbox) -> List[float]:
     """Generate a random segmentation mask made of polygon points
 
@@ -193,7 +260,7 @@ def generate_random_images_and_annotation(image_height: int, image_width: int,
                                           image_name: str = "random_images",
                                           parallelize: bool = True,
                                           save_ann_as: str= "generated_annotation.json",
-                                          *args, **kwargs
+                                          **kwargs
                                          ) -> Tuple[List, str]: 
     """Generates random images and annotations in coco format
 
@@ -208,19 +275,24 @@ def generate_random_images_and_annotation(image_height: int, image_width: int,
         save_ann_as (str, optional): coco annotation file name to use for saving
     Returns:
         Tuple[List, str]: List of images generated paths and save_ann_as
-    """          
+    """  
+    #randimg_params = get_params(func=generate_random_images, kwargs=kwargs)        
     img_paths = generate_random_images(image_height=image_height, 
                                        image_width=image_width,
-                                        number_of_images=number_of_images, 
+                                        number_of_images=number_of_images,
+                                        #**randimg_params, 
                                         output_dir=output_dir,
-                                        img_ext=img_ext,
-                                        image_name=image_name,
-                                        parallelize=parallelize
+                                        # img_ext=img_ext,
+                                        # image_name=image_name,
+                                        # parallelize=parallelize
                                         )
+    coco_ann_params = get_params(func=generate_coco_annotation_file, kwargs=kwargs)
     generate_coco_annotation_file(image_width=image_width, 
-                                  image_height=image_height, 
+                                  image_height=image_height,
+                                  img_list=img_paths, 
+                                  **coco_ann_params,
                                   output_path=save_ann_as, 
-                                  img_list=img_paths
+                                  
                                   )
     return img_paths, save_ann_as
         
