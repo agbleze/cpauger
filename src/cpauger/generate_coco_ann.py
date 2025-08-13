@@ -39,61 +39,6 @@ def generate_random_bbox(image_width: int, image_height: int, anthor=5) -> List[
     return [x, y, width, height]
 
 
-#%%
-
-#get_params(generate_random_bbox)
-
-# inspect.signature(generate_random_bbox).parameters.values().
-
-
-# #%%
-# inspect.getargvalues(generate_random_bbox)
-
-
-#%%
-
-# import inspect
-
-# def example_function(a, b, c=5, *args, **kwargs):
-#     pass
-
-# def get_function_args(func):
-#     signature = inspect.signature(func)
-#     parameters = signature.parameters
-
-#     # Initialize separate lists for positional, default, and keyword arguments
-#     pos_args = []
-#     kw_args = {}
-#     default_args = {}
-
-#     for name, param in parameters.items():
-#         if param.default == inspect.Parameter.empty:
-#             if param.kind == inspect.Parameter.VAR_POSITIONAL:
-#                 pos_args.append(f"*{name}")
-#             elif param.kind == inspect.Parameter.VAR_KEYWORD:
-#                 kw_args[name] = None
-#             else:
-#                 pos_args.append(name)
-#         else:
-#             default_args[name] = param.default
-
-#     return pos_args, default_args, kw_args
-
-# pos_args, default_args, kw_args = get_function_args(example_function)
-
-# print("Positional arguments:", pos_args)
-# print("Default arguments:", default_args)
-# print("Keyword arguments:", kw_args)
-
-# #%%
-# def sample_func(a, b, also="jetzt", *args, **kwargs):
-#     print(*args)
-#     print(f"a: {a}, b: {b}")
-#     print(**kwargs)
-
-
-# sample_func(23, "bar") #, ex="op", job="mini")
-#%%
 def generate_random_segmentation(bbox) -> List[float]:
     """Generate a random segmentation mask made of polygon points
 
@@ -151,7 +96,7 @@ def generate_coco_annotation_file(image_width: int, image_height: int,
 
     Returns: None
     """
-    images, annotations, categories = [], [], []
+    images, annotations = [], []
     if not img_list:
         raise ValueError(f"img_list is required to be a list of str or path but {img_list} was given")
     for idx, img_path in enumerate(img_list):
@@ -167,14 +112,14 @@ def generate_coco_annotation_file(image_width: int, image_height: int,
                     "height": image_height,
                     "file_name": os.path.basename(img_path)
                 }
-        category_info = {"id": category_id,
-                        "name": f"object_{category_id}",
-                        "supercategory": "none"
-                        }
         images.append(img_info)
-        categories.append(category_info)
         annotations.append(annotation)
-        
+    categories = [{"id": category_id,
+                    "name": f"object_{category_id}",
+                    "supercategory": "none"
+                    } 
+                for category_id in [1,2,3]
+                ]    
     coco_format = {"images": images,
                     "annotations": annotations,
                     "categories": categories
@@ -282,9 +227,9 @@ def generate_random_images_and_annotation(image_height: int, image_width: int,
                                         number_of_images=number_of_images,
                                         #**randimg_params, 
                                         output_dir=output_dir,
-                                        # img_ext=img_ext,
-                                        # image_name=image_name,
-                                        # parallelize=parallelize
+                                        img_ext=img_ext,
+                                        image_name=image_name,
+                                        parallelize=parallelize
                                         )
     coco_ann_params = get_params(func=generate_coco_annotation_file, kwargs=kwargs)
     generate_coco_annotation_file(image_width=image_width, 
