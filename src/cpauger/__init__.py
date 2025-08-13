@@ -1,7 +1,5 @@
 from importlib.metadata import version
 import logging
-from decouple import config
-from typing import Union
 
 package_name = __name__
 __version__ = version(package_name)
