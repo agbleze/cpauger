@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.1.1 (2025-08-13)
+
+### Unknown
+
+* Merge branch &#39;main&#39; of https://github.com/agbleze/cpauger into main
+update with remote pull ([`84b3b44`](https://github.com/agbleze/cpauger/commit/84b3b44fc0eacd87ba78cf46581e84bffa52c333))
+
 ## v1.1.0 (2025-08-13)
 
 ### Build
@@ -17,6 +24,8 @@
 * feat: add logging setup ([`c4bcf37`](https://github.com/agbleze/cpauger/commit/c4bcf37e3bcaa2958e2eb6f5ca3614440a61a405))
 
 ### Fix
+
+* fix: change package name for  pytest ([`c6a7c41`](https://github.com/agbleze/cpauger/commit/c6a7c41201850e76f137b6396634b557d2401035))
 
 * fix: remove unused packages ([`2c5ce1c`](https://github.com/agbleze/cpauger/commit/2c5ce1c15729f56210af1bfc73abe8ed3093d556))
 
