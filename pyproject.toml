@@ -26,12 +26,10 @@ python-semantic-release = "^9.9.0"
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-
 [tool.semantic_release]
 version_toml = ["pyproject.toml:tool.poetry.version"]
 version_variable = ["src/cpauger/__init__.py:__version__"]
 build_command = "pip install poetry && poetry build"
-
 
 [tool.semantic_release.branch.main]
 changelog_file = "CHANGELOG.md"
