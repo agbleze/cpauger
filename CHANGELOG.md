@@ -1,5 +1,63 @@
 # CHANGELOG
 
+## v1.1.0 (2025-08-13)
+
+### Build
+
+* build: update poetry.lock ([`e1ccb84`](https://github.com/agbleze/cpauger/commit/e1ccb841dfaa18a7f18c8c8b11b68f2218d59f4e))
+
+* build: change workflow folder to workflows ([`530d1ed`](https://github.com/agbleze/cpauger/commit/530d1ed2e13aa7284d1b7110612cd68518aa39a9))
+
+* build: add ci-cd.yml ([`05c17f0`](https://github.com/agbleze/cpauger/commit/05c17f03330b84e6ff58637649101bf8215f383a))
+
+* build: add semantic release setup to toml ([`9b02f7a`](https://github.com/agbleze/cpauger/commit/9b02f7ab06cd522a331f7b20408b8474c5bd3945))
+
+### Feature
+
+* feat: add logging setup ([`c4bcf37`](https://github.com/agbleze/cpauger/commit/c4bcf37e3bcaa2958e2eb6f5ca3614440a61a405))
+
+### Fix
+
+* fix: remove unused packages ([`2c5ce1c`](https://github.com/agbleze/cpauger/commit/2c5ce1c15729f56210af1bfc73abe8ed3093d556))
+
+### Style
+
+* style: format pyproject.toml ([`970e8b4`](https://github.com/agbleze/cpauger/commit/970e8b4d5ecc1f0fe56e3ee3840ef362ede3ce99))
+
+### Unknown
+
+* Create ci-cd.yml ([`4e8b22e`](https://github.com/agbleze/cpauger/commit/4e8b22ede12b407f88829635a5a46953d1264a09))
+
+## v1.0.0 (2025-08-13)
+
+### Build
+
+* build: update workflow ([`d49c51f`](https://github.com/agbleze/cpauger/commit/d49c51fc29c6905706fbe1abc6efb2a19006580a))
+
+* build: add ci-cd workflow ([`ab070a4`](https://github.com/agbleze/cpauger/commit/ab070a4abfcceaecca4e966be31137fb6db74930))
+
+### Documentation
+
+* docs: update ([`3c90819`](https://github.com/agbleze/cpauger/commit/3c90819d6395b3661e3c5ca01803469b61e5127d))
+
+* docs: update generate_random_images_and_annotation docstring ([`bbb130c`](https://github.com/agbleze/cpauger/commit/bbb130c07a93988cb2d5a1da9c99f14163365ae6))
+
+* docs: update generate_random_images_and_annotation docstring ([`f241abd`](https://github.com/agbleze/cpauger/commit/f241abdb7f4941fd109128dbb36bade6753b9f01))
+
+* docs: update docstring ([`2a0bdd4`](https://github.com/agbleze/cpauger/commit/2a0bdd4e35ac1928fedc2bb142b9c7ede1778e98))
+
+* docs: add docstring ([`0c0fee2`](https://github.com/agbleze/cpauger/commit/0c0fee2e26efcd66e1960d80b7c256823ab65d42))
+
+* docs: add docstring to draw_bbox_polygons ([`ad0f985`](https://github.com/agbleze/cpauger/commit/ad0f985c5f52703348719251a58966984df106cd))
+
+### Fix
+
+* fix: change generation of duplicate categories in annotation ([`2717c33`](https://github.com/agbleze/cpauger/commit/2717c333d1b95acd81f39124c0ac48a46190f4a9))
+
+### Unknown
+
+* add docsrting to visualize bboxex ([`7824379`](https://github.com/agbleze/cpauger/commit/78243790b6b5de3e922a428e0e01535f744d4b66))
+
 ## v0.1.0 (2024-11-07)
 
 ### Feature
