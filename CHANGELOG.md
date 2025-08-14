@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v1.1.2 (2025-08-14)
+
+### Fix
+
+* fix: add usage to readme ([`6af7f0f`](https://github.com/agbleze/cpauger/commit/6af7f0f70227ad2a8badf187a50884cbcb830c02))
+
+* fix: add overview ([`22c78bb`](https://github.com/agbleze/cpauger/commit/22c78bb5e6bdc8c1fa10d8d8b31b32ed70e368fe))
+
 ## v1.1.1 (2025-08-13)
 
 ### Unknown
