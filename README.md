@@ -41,22 +41,42 @@ you need images in a folder (source) and their annotation in COCO format, a list
 
 Use crop_paste_obj function to run copy-paste augmentation as follows:
 
-
 ```python
-
+from cpauger.generate_coco_ann import generate_random_images_and_annotation
 from cpauger.augment_image import crop_paste_obj
 
+source_img_dir = "source_imgs"
+destination_img_dir = "dest_imgs
+
+src_imgs, src_ann = generate_random_images_and_annotation(image_height=224, image_width=224,
+                                                        number_of_images=100, 
+                                                        output_dir=source_img_dir,
+                                                        img_ext ="jpg",
+                                                        image_name="src_img",
+                                                        parallelize=True,
+                                                        save_ann_as="src_annotation.json",
+                                                        )
+
+
+dest_imgs, _ = generate_random_images_and_annotation(image_height=224, image_width=224,
+                                                    number_of_images=100, 
+                                                    output_dir=destination_img_dir,
+                                                    img_ext ="jpg",
+                                                    image_name="dest_img",
+                                                    parallelize=True,
+                                                    save_ann_as= "dest_annotation.json",
+                                                    )
+
 crop_paste_obj(object_to_cropped=["object_1"], 
-            imgnames_for_crop=img_paths,
-            img_dir=tempdir.name,
-            coco_ann_file=coco_path, 
-            bkgs=bkgs, 
+            imgnames_for_crop=src_imgs,
+            img_dir=source_img_dir,
+            coco_ann_file="src_annotation.json", 
+            bkgs=dest_imgs, 
             objs_paste_num={"object_1":1},
-            output_img_dir=bkgs_paste_tempdir.name,
-            save_coco_ann_as=save_coco_ann_as,
-            min_x=None, min_y=None, 
-            max_x=None, max_y=None, 
-            #resize_width=50, resize_height=50,
+            output_img_dir="cpaug_output",
+            save_coco_ann_as="cpaug_ann.json",
+            min_x=None, min_y=None,
+            max_x=None, max_y=None,
             sample_location_randomly=True,
             visualize_dir="viz_output_dir
             )
